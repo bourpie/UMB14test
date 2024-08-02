@@ -1,0 +1,16 @@
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    var content = (ContentModels.TableDesMatieres)Model.Content;
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <qc-tdm titre="Table des Matières"></qc-tdm>
+            </div>
+        </div>
+    </div>
+</section>
+

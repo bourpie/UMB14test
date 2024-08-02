@@ -1,0 +1,53 @@
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Web
+@using Umbraco.Extensions
+@using Umbraco.Cms.Core.Models
+@using System.Threading
+@inject IUmbracoContextAccessor UmbracoContextAccessor
+
+@{
+    var currentCulture = Thread.CurrentThread.CurrentCulture;
+    var language = currentCulture.TwoLetterISOLanguageName;
+    var path = language == "fr" ? "/en" : "/";
+    var langueLabel = language == "fr" ? "English" : "Français";
+    
+    // Récupérer le nœud racine
+    var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
+    var rootNode = umbracoContext.Content.GetAtRoot().FirstOrDefault();
+
+    // Exemple de récupération de propriétés du nœud racine
+    var nomDuSite = rootNode?.Value<string>("nomDuSite") ?? string.Empty;
+    var contact = rootNode?.Value<Link>("contactUrl");
+
+     // Récupérer le contenu de la navigation
+
+         // Récupérer le document "Navigation" à la racine
+    var navigationNode = umbracoContext.Content.GetAtRoot().FirstOrDefault(x => x.ContentType.Alias == "navigation");
+    var navigationItems = navigationNode?.Value<IEnumerable<Link>>("navigationItems");
+
+}
+
+
+<qc-header 
+    titre="@nomDuSite"
+    btnlabel="Ouvrir la recherche"
+    contacturl="@contact?.Url"
+    langueurl="@path"
+    langueLabel="@langueLabel"
+></qc-header>
+
+ @if (navigationItems != null && navigationItems.Any())
+ {
+<qc-navigation>
+    <ul>
+        @foreach (var link in navigationItems)
+        {
+            <li>
+                <li><a href="@link.Url" target="@link.Target">@link.Name</a></li>
+            </li>
+        }
+    </ul>
+</qc-navigation>
+
+ }
+

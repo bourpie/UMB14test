@@ -1,0 +1,13 @@
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    var content = (ContentModels.FooterLiensPrincipaux)Model.Content;
+}
+
+<nav>
+    <h3>@content.Titre</h3>
+    <ul>
+        <li><a href="#link1">Link 1 sdfsdfsdf</a></li>
+        <li><a href="#link2">Link 2</a></li>
+    </ul>
+</nav>
