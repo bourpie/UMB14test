@@ -229,7 +229,7 @@
                     ${t}
                 </ul>
             </div>
-        `}get titre(){return this.getAttribute("titre")||"Suivez-nous sur les réseaux sociaux"}get medias(){return this.getAttribute("medias")}get theme(){return this.getAttribute("theme")||"dark"}attributeChangedCallback(e,s,t){s!==t&&this.render()}render(){this.innerHTML=this.template}}customElements.get("qc-social")||customElements.define("qc-social",C);class q extends HTMLElement{constructor(){super(),this.toggleButton=this.querySelector(".accordion-toggle"),this.content=this.toggleButton.nextElementSibling,this.toggleButton.setAttribute("aria-expanded","false"),this.content.setAttribute("aria-hidden","true"),this.content.style.display="none",this.toggleButton.addEventListener("click",()=>this.toggleContent())}toggleContent(){const e=this.toggleButton.getAttribute("aria-expanded")==="true";e||this.closeAllAccordions(),this.toggleButton.setAttribute("aria-expanded",!e),this.content.setAttribute("aria-hidden",e),e?this.content.style.display="none":this.content.style.display="block"}closeAllAccordions(){document.querySelectorAll("qc-accordeon").forEach(s=>{const t=s.querySelector(".accordion-toggle"),i=t.nextElementSibling;t.setAttribute("aria-expanded","false"),i.setAttribute("aria-hidden","true"),i.style.display="none";const r=t.querySelector(".lnr");r.classList.remove("lnr-chevron-up"),r.classList.add("lnr-chevron-down")})}}customElements.get("qc-accordeon")||customElements.define("qc-accordeon",q);class L extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"}),this.render()}connectedCallback(){this.addEventListeners(),this.enhanceAccessibility()}addEventListeners(){this.querySelectorAll("button").forEach(s=>{s.addEventListener("click",t=>{t.preventDefault(),this.toggleSubmenu(s)})}),document.addEventListener("click",s=>{this.contains(s.target)||s.target.closest("qc-navigation")||this.closeAllSubmenus()})}toggleSubmenu(e){const s=e.nextElementSibling;if(s&&s.tagName.toLowerCase()==="ul"){const t=s.classList.toggle("show");e.setAttribute("aria-expanded",t),this.updateButtonIcon(e,t)}}updateButtonIcon(e,s){const t=e.querySelector("li button span");s?(t.classList.remove("lnr-chevron-down"),t.classList.add("lnr-chevron-up"),e.setAttribute("aria-label","Réduire le sous-menu"),e.classList.add("open")):(t.classList.remove("lnr-chevron-up"),t.classList.add("lnr-chevron-down"),e.setAttribute("aria-label","Développer le sous-menu"),e.classList.remove("open"))}closeAllSubmenus(){const e=this.querySelectorAll("ul"),s=this.querySelectorAll("button");e.forEach(t=>t.classList.remove("show")),s.forEach(t=>{t.setAttribute("aria-expanded","false"),this.updateButtonIcon(t,!1)})}enhanceAccessibility(){const e=this.shadowRoot.querySelector("nav"),s=this.querySelectorAll("ul");e.setAttribute("role","navigation"),e.setAttribute("aria-label","Navigation principale"),s.forEach((t,i)=>{t.setAttribute("role","menubar");const r=t.children;Array.from(r).forEach((n,M)=>{n.setAttribute("role","none");const a=n.querySelector("a"),l=n.querySelector("button"),o=n.querySelector("ul");a&&a.setAttribute("role","menuitem"),l&&(l.classList.add("submenu-toggle"),l.setAttribute("aria-haspopup","true"),l.setAttribute("aria-expanded","false"),l.setAttribute("aria-label","Développer le sous-menu"),l.nextElementSibling.setAttribute("role","menu")),o&&(o.classList.add("submenu"),o.setAttribute("aria-label",`Sous-menu ${a?a.textContent.trim():"sans titre"}`))})})}render(){const e=`
+        `}get titre(){return this.getAttribute("titre")||"Suivez-nous sur les réseaux sociaux"}get medias(){return this.getAttribute("medias")}get theme(){return this.getAttribute("theme")||"dark"}attributeChangedCallback(e,s,t){s!==t&&this.render()}render(){this.innerHTML=this.template}}customElements.get("qc-social")||customElements.define("qc-social",C);class L extends HTMLElement{constructor(){super(),this.toggleButton=this.querySelector(".accordion-toggle"),this.content=this.toggleButton.nextElementSibling,this.toggleButton.setAttribute("aria-expanded","false"),this.content.setAttribute("aria-hidden","true"),this.content.style.display="none",this.toggleButton.addEventListener("click",()=>this.toggleContent())}toggleContent(){const e=this.toggleButton.getAttribute("aria-expanded")==="true";e||this.closeAllAccordions(),this.toggleButton.setAttribute("aria-expanded",!e),this.content.setAttribute("aria-hidden",e),e?this.content.style.display="none":this.content.style.display="block"}closeAllAccordions(){document.querySelectorAll("qc-accordeon").forEach(s=>{const t=s.querySelector(".accordion-toggle"),i=t.nextElementSibling;t.setAttribute("aria-expanded","false"),i.setAttribute("aria-hidden","true"),i.style.display="none";const r=t.querySelector(".lnr");r.classList.remove("lnr-chevron-up"),r.classList.add("lnr-chevron-down")})}}customElements.get("qc-accordeon")||customElements.define("qc-accordeon",L);class q extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"}),this.render()}connectedCallback(){this.addEventListeners(),this.enhanceAccessibility()}addEventListeners(){this.querySelectorAll("button").forEach(s=>{s.addEventListener("click",t=>{t.preventDefault(),this.toggleSubmenu(s)})}),document.addEventListener("click",s=>{this.contains(s.target)||s.target.closest("qc-navigation")||this.closeAllSubmenus()})}toggleSubmenu(e){const s=e.nextElementSibling;if(s&&s.tagName.toLowerCase()==="ul"){const t=s.classList.toggle("show");e.setAttribute("aria-expanded",t),this.updateButtonIcon(e,t)}}updateButtonIcon(e,s){const t=e.querySelector("li button span");s?(t.classList.remove("lnr-chevron-down"),t.classList.add("lnr-chevron-up"),e.setAttribute("aria-label","Réduire le sous-menu"),e.classList.add("open")):(t.classList.remove("lnr-chevron-up"),t.classList.add("lnr-chevron-down"),e.setAttribute("aria-label","Développer le sous-menu"),e.classList.remove("open"))}closeAllSubmenus(){const e=this.querySelectorAll("ul"),s=this.querySelectorAll("button");e.forEach(t=>t.classList.remove("show")),s.forEach(t=>{t.setAttribute("aria-expanded","false"),this.updateButtonIcon(t,!1)})}enhanceAccessibility(){const e=this.shadowRoot.querySelector("nav"),s=this.querySelectorAll("ul");e.setAttribute("role","navigation"),e.setAttribute("aria-label","Navigation principale"),s.forEach((t,i)=>{t.setAttribute("role","menubar");const r=t.children;Array.from(r).forEach((n,E)=>{n.setAttribute("role","none");const l=n.querySelector("a"),a=n.querySelector("button"),o=n.querySelector("ul");l&&l.setAttribute("role","menuitem"),a&&(a.classList.add("submenu-toggle"),a.setAttribute("aria-haspopup","true"),a.setAttribute("aria-expanded","false"),a.setAttribute("aria-label","Développer le sous-menu"),a.nextElementSibling.setAttribute("role","menu")),o&&(o.classList.add("submenu"),o.setAttribute("aria-label",`Sous-menu ${l?l.textContent.trim():"sans titre"}`))})})}render(){const e=`
             :host {
                 display: block;
             }
@@ -259,4 +259,38 @@
                     </div>
                 </div>
             </nav>
-        `}}customElements.get("qc-navigation")||customElements.define("qc-navigation",L)})();
+        `}}customElements.get("qc-navigation")||customElements.define("qc-navigation",q);class M extends HTMLElement{static get observedAttributes(){return["arialabel"]}constructor(){super(),this.attachShadow({mode:"open"}),this.render()}attributeChangedCallback(e,s,t){s!==t&&this.render()}render(){const e=`
+            :host {
+                --margin-top: 1rem;
+                display: block;
+            }
+
+            nav {
+                margin-top: var(--margin-top);
+            }
+            .container {
+                width: 100%;
+                padding-right: 15px;
+                padding-left: 15px;
+                margin-right: auto;
+                margin-left: auto;
+            }
+    
+            @media (min-width: 1200px) {
+                .container {
+                    max-width: 1110px;
+                }
+            }
+            .row {
+                display: flex;
+            }
+        `;this.shadowRoot.innerHTML=`
+            <style>${e}</style>
+            <nav aria-label="${this.ariaLabel}">
+                <div class="container">
+                    <div class="row">
+                        <slot></slot>
+                    </div>
+                </div>
+            </nav>
+        `}}customElements.get("qc-ariane")||customElements.define("qc-ariane",M)})();

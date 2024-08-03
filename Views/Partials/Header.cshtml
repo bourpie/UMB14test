@@ -10,7 +10,7 @@
     var language = currentCulture.TwoLetterISOLanguageName;
     var path = language == "fr" ? "/en" : "/";
     var langueLabel = language == "fr" ? "English" : "Français";
-    
+
     // Récupérer le nœud racine
     var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
     var rootNode = umbracoContext.Content.GetAtRoot().FirstOrDefault();
@@ -19,14 +19,43 @@
     var nomDuSite = rootNode?.Value<string>("nomDuSite") ?? string.Empty;
     var contact = rootNode?.Value<Link>("contactUrl");
 
-     // Récupérer le contenu de la navigation
+    // Récupérer le nœud racine de type "page"
+    var navigationRootNode = umbracoContext.Content.GetAtRoot().FirstOrDefault(x => x.ContentType.Alias == "page");
+    
+    // Récupérer les enfants du nœud racine de type "page"
+    var pageNodes = navigationRootNode?.Children.Where(x => x.ContentType.Alias == "page") ?? Enumerable.Empty<IPublishedContent>();
 
-         // Récupérer le document "Navigation" à la racine
-    var navigationNode = umbracoContext.Content.GetAtRoot().FirstOrDefault(x => x.ContentType.Alias == "navigation");
-    var navigationItems = navigationNode?.Value<IEnumerable<Link>>("navigationItems");
-
+    // Récupérer l'URL de la page courante
+    var currentUrl = UmbracoContextAccessor.GetRequiredUmbracoContext().PublishedRequest.PublishedContent.Url();
 }
 
+@functions {
+    // Méthode pour afficher les sous-menus de manière récursive
+    void RenderSubMenu(IPublishedContent node)
+    {
+        var currentUrl = UmbracoContextAccessor.GetRequiredUmbracoContext().PublishedRequest.PublishedContent.Url();
+        if (node.Children != null && node.Children.Any())
+        {
+          <button>
+            <span class="lnr lnr-chevron-down"></span>
+          </button>
+            <ul>
+                @foreach (var child in node.Children)
+                {
+                    // Vérifier si le lien est actif
+                    bool isActive = child.Url() == currentUrl;
+                    <li>
+                        <a href="@child.Url()"
+                           @(isActive ? "aria-current=\"page\"" : null)>
+                            @child.Name
+                        </a>
+                        @{RenderSubMenu(child);}
+                    </li>
+                }
+            </ul>
+        }
+    }
+}
 
 <qc-header 
     titre="@nomDuSite"
@@ -36,18 +65,26 @@
     langueLabel="@langueLabel"
 ></qc-header>
 
- @if (navigationItems != null && navigationItems.Any())
- {
 <qc-navigation>
-    <ul>
-        @foreach (var link in navigationItems)
-        {
-            <li>
-                <li><a href="@link.Url" target="@link.Target">@link.Name</a></li>
-            </li>
-        }
-    </ul>
+    @if (pageNodes.Any())
+    {
+        <ul>
+            @foreach (var pageNode in pageNodes)
+            {
+                // Vérifier si le lien est actif
+                bool isActive = pageNode.Url() == currentUrl;
+                <li>
+                    <a href="@pageNode.Url()"
+                       @(isActive ? "aria-current=\"page\"" : null)>
+                        @pageNode.Name
+                    </a>
+                    @{RenderSubMenu(pageNode);}
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Aucun élément de navigation trouvé.</p>
+    }
 </qc-navigation>
-
- }
-

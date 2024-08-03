@@ -1,9 +1,9 @@
 body {
-    display: grid;
-    grid-template-rows: auto auto 1fr auto;
+    display: flex;
     min-height: 100vh;
+    flex-direction: column;
 }
 
-main {
-    padding-bottom: 4rem;
+qc-footer {
+    margin-top: auto;
 }

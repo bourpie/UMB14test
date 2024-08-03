@@ -653,7 +653,7 @@ class L extends HTMLElement {
     e.setAttribute("role", "navigation"), e.setAttribute("aria-label", "Navigation principale"), s.forEach((t, i) => {
       t.setAttribute("role", "menubar");
       const c = t.children;
-      Array.from(c).forEach((n, M) => {
+      Array.from(c).forEach((n, E) => {
         n.setAttribute("role", "none");
         const l = n.querySelector("a"), a = n.querySelector("button"), o = n.querySelector("ul");
         l && l.setAttribute("role", "menuitem"), a && (a.classList.add("submenu-toggle"), a.setAttribute("aria-haspopup", "true"), a.setAttribute("aria-expanded", "false"), a.setAttribute("aria-label", "Développer le sous-menu"), a.nextElementSibling.setAttribute("role", "menu")), o && (o.classList.add("submenu"), o.setAttribute("aria-label", `Sous-menu ${l ? l.textContent.trim() : "sans titre"}`));
@@ -696,3 +696,53 @@ class L extends HTMLElement {
   }
 }
 customElements.get("qc-navigation") || customElements.define("qc-navigation", L);
+class M extends HTMLElement {
+  static get observedAttributes() {
+    return ["arialabel"];
+  }
+  constructor() {
+    super(), this.attachShadow({ mode: "open" }), this.render();
+  }
+  attributeChangedCallback(e, s, t) {
+    s !== t && this.render();
+  }
+  render() {
+    const e = `
+            :host {
+                --margin-top: 1rem;
+                display: block;
+            }
+
+            nav {
+                margin-top: var(--margin-top);
+            }
+            .container {
+                width: 100%;
+                padding-right: 15px;
+                padding-left: 15px;
+                margin-right: auto;
+                margin-left: auto;
+            }
+    
+            @media (min-width: 1200px) {
+                .container {
+                    max-width: 1110px;
+                }
+            }
+            .row {
+                display: flex;
+            }
+        `;
+    this.shadowRoot.innerHTML = `
+            <style>${e}</style>
+            <nav aria-label="${this.ariaLabel}">
+                <div class="container">
+                    <div class="row">
+                        <slot></slot>
+                    </div>
+                </div>
+            </nav>
+        `;
+  }
+}
+customElements.get("qc-ariane") || customElements.define("qc-ariane", M);

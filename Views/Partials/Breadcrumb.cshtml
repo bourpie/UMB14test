@@ -1,13 +1,26 @@
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <nav class="mt-3 mb-5" style="--bs-breadcrumb-divider: '<';" aria-label="Fil d'Ariane">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item small"><a href="/">Accueil</a></li>
-                    <li class="breadcrumb-item small active" aria-current="page">Ma page</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-</div>
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Web
+@using Umbraco.Extensions
+@using Umbraco.Cms.Core.Models
+@using System.Threading
+@inject IUmbracoContextAccessor UmbracoContextAccessor
+
+@{
+    var umbracoContext = UmbracoContextAccessor.GetRequiredUmbracoContext();
+    var rootNode = umbracoContext.Content.GetAtRoot().FirstOrDefault();
+    var CurrentPage = umbracoContext.PublishedRequest.PublishedContent;
+}
+
+@if (CurrentPage.Ancestors().Any())
+{
+    <qc-ariane >
+        <ol>
+            @foreach (var bpage in CurrentPage.Ancestors().OrderBy(x => x.Level))
+            {
+                <li><a href="@bpage.Url()">@bpage.Name</a></li>
+            }
+            <li aria-current="page">@CurrentPage.Name</li>
+        </ol>
+    </qc-ariane>
+}
 
