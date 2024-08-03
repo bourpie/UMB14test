@@ -628,7 +628,10 @@ class L extends HTMLElement {
         t.preventDefault(), this.toggleSubmenu(s);
       });
     }), document.addEventListener("click", (s) => {
-      this.contains(s.target) || s.target.closest("qc-navigation") || this.closeAllSubmenus();
+      const t = this.contains(s.target) || s.target.closest("qc-navigation"), i = s.target.closest("button, a");
+      (!t || t && !i) && this.closeAllSubmenus();
+    }), document.addEventListener("keydown", (s) => {
+      s.key === "Escape" && this.closeAllSubmenus();
     });
   }
   toggleSubmenu(e) {
@@ -643,7 +646,7 @@ class L extends HTMLElement {
     s ? (t.classList.remove("lnr-chevron-down"), t.classList.add("lnr-chevron-up"), e.setAttribute("aria-label", "Réduire le sous-menu"), e.classList.add("open")) : (t.classList.remove("lnr-chevron-up"), t.classList.add("lnr-chevron-down"), e.setAttribute("aria-label", "Développer le sous-menu"), e.classList.remove("open"));
   }
   closeAllSubmenus() {
-    const e = this.querySelectorAll("ul"), s = this.querySelectorAll("button");
+    const e = this.querySelectorAll("ul.show"), s = this.querySelectorAll('button[aria-expanded="true"]');
     e.forEach((t) => t.classList.remove("show")), s.forEach((t) => {
       t.setAttribute("aria-expanded", "false"), this.updateButtonIcon(t, !1);
     });
